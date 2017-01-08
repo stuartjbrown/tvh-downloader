@@ -4,6 +4,7 @@
 require 'optparse'
 
 hash_options = {}
+help_text = ""
 
 OptionParser.new do |opts|
   opts.banner = "Usage: tvh-downloader [options]"
@@ -13,13 +14,13 @@ OptionParser.new do |opts|
   opts.on('-u [ARG]', '--remote-username [ARG]', "Specify the TvHeadend remote username") do |v|
     hash_options[:remote_username] = v
   end
-  opts.on('-u [ARG]', '--remote-password [ARG]', "Specify the TvHeadend remote password") do |v|
+  opts.on('-p [ARG]', '--remote-password [ARG]', "Specify the TvHeadend remote password") do |v|
     hash_options[:remote_password] = v
   end
-  opts.on('-p [ARG]', '--local-path [ARG]', "Specify the local path to store the downloaded files") do |v|
+  opts.on('-l [ARG]', '--local-path [ARG]', "Specify the local path to store the downloaded files") do |v|
     hash_options[:local_path] = v
   end
-  opts.on('--version', 'Display the version') do
+  opts.on('-v', '--version', 'Display the version') do
     puts "0.1.0"
     exit
   end
@@ -27,6 +28,11 @@ OptionParser.new do |opts|
     puts opts
     exit
   end
+
+  help_text = opts.to_s
 end.parse!
 
-puts "hash_options = #{hash_options.length}, remote_url_port = #{hash_options[:remote_url_port]}"
+if hash_options.length < 4
+  puts help_text
+  exit
+end
